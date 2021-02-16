@@ -7,54 +7,142 @@ namespace BookStore.Domain
     {
         public Location()
         {
-            Inventory = new Dictionary<int, int>();
+            Inventory = new Dictionary<Product, int>();
         }
 
-        public Dictionary<int, int> Inventory {get;}
-
-        public bool AddProduct(int productID, int quantity)
+        public Location(string name)
         {
-            try 
-            {
-                Inventory.Add(productID, quantity);
-            } catch (ArgumentException)
+            Name = name;
+            Inventory = new Dictionary<Product, int>();
+        }
+
+        public int ID {get;}
+        public string Name {get; set;}
+        public Dictionary<Product, int> Inventory {get;}
+
+        public bool SetProductAmount(Product p, int amount)
+        {
+            if (p == null || amount < 0) 
             {
                 return false;
             }
+            
+            Inventory[p] = amount;
             return true;
+        }
+
+        public bool SetProductAmount(int productID, int amount)
+        {
+            if (productID < 1 || amount < 0) 
+            {
+                return false;
+            }
+
+            Product toAssign = null;
+            foreach(KeyValuePair<Product, int> entry in Inventory)
+            {
+                if (entry.Key.ID == productID)
+                {
+                    toAssign = entry.Key;
+                    break;
+                }
+            }
+            if (toAssign != null) 
+            {
+                Inventory[toAssign] = amount;
+                return true;
+            }
+            return false;
+        }
+
+        public int GetProductAmount(Product p)
+        {
+            if (p == null || !Inventory.ContainsKey(p)) 
+            {
+                return -1;
+            }
+            return Inventory[p];
+        }
+
+        public int GetProductAmount(int productID)
+        {
+            if (productID < 1)
+            {
+                return -1;
+            }
+            foreach(KeyValuePair<Product, int> entry in Inventory)
+            {
+                if (entry.Key.ID == productID)
+                {
+                    return entry.Value;
+                }
+            }
+            return -1;
+        }
+
+        public bool WithdrawProduct(Product p, int amount)
+        {
+            if (p == null || amount < 1 || amount > Inventory[p])
+            {
+                return false;
+            }
+            else
+            {
+                Inventory[p] -= amount;
+                return true;
+            }
+        }
+
+        public bool WithdrawProduct(int productID, int amount)
+        {
+            if (productID < 1 || amount < 1)
+            {
+                return false;
+            }
+            foreach(KeyValuePair<Product, int> entry in Inventory)
+            {
+                if (entry.Key.ID == productID)
+                {
+                    if (amount > Inventory[entry.Key])
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        Inventory[entry.Key] -= amount;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool RemoveProduct(Product p)
+        {
+            if (p == null)
+            {
+                return false;
+            }
+            return Inventory.Remove(p);
         }
 
         public bool RemoveProduct(int productID)
         {
-            return Inventory.Remove(productID);
-        }
-
-        public void IncreaseProduct(int productID, int incAmt)
-        {
-            Inventory[productID] += incAmt;
-        }
-
-        public void DecreaseProduct(int productID, int decAmt)
-        {
-            int current = Inventory[productID];
-            if (current < decAmt) {
-                throw new OutOfStockException("Insufficient stock for this product.", productID);
-            } else {
-                Inventory[productID] -= decAmt;
+            Product toRemove = null;
+            foreach(KeyValuePair<Product, int> entry in Inventory)
+            {
+                if (entry.Key.ID == productID)
+                {
+                    toRemove = entry.Key;
+                    break;
+                }
             }
-        }
-    }
-
-    [System.Serializable]
-    public class OutOfStockException : System.Exception
-    {
-        public int ProductID {get;}
-        public OutOfStockException() { }
-        public OutOfStockException(string message) : base(message) { }
-        public OutOfStockException(string message, System.Exception inner) : base(message, inner) { }
-        public OutOfStockException(string message, int productID) : this(message)
-        {
-            ProductID = productID;
+            
+            if (toRemove == null) {
+                return false;
+            }
+            
+            return Inventory.Remove(toRemove);
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace BookStore.Domain
 {
-    public class Product : IProduct
+    public class Product
     {
         public Product(string name, double price)
         {
@@ -10,7 +10,15 @@ namespace BookStore.Domain
             Price = price;
         }
 
-        public string Name {get;}
-        public double Price {get;}
+        public Product(int id, string name, double price)
+        {
+            ID = id;
+            Name = name;
+            Price = price;
+        }
+
+        public int ID {get; set;}
+        public string Name {get; set;}
+        public double Price {get; set;}
     }
 }

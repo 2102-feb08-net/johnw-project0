@@ -6,31 +6,59 @@ namespace BookStore.Tests
 {
     public class ProductTests
     {
-        private Product p;
-        private string testName;
-        private double testPrice;
-
-        public ProductTests()
+        int testID = 1;
+        string testName = "Green Eggs & Ham";
+        double testPrice = 4.99;
+        
+        // test ID
+        [Fact]
+        public void Product_TestGetID()
         {
-            testName = "Green Eggs & Ham";
-            testPrice = 4.99; 
-            p = new Product(testName, testPrice);
+            Product p = new Product(testID, testName, testPrice);
+            Assert.Equal(testID, p.ID);
         }
 
-        [Fact]
-        public void Product_GetName()
+        [Theory]
+        [InlineData(2)]
+        public void Product_TestSetID(int newID)
         {
-            string pName = p.Name;
-
-            Assert.Equal(pName, testName);
+            Product p = new Product(testID, testName, testPrice);
+            p.ID = newID;
+            Assert.Equal(newID, p.ID);
+        }
+        
+        // test name
+        [Fact]
+        public void Product_TestGetName()
+        {
+            Product p = new Product(testName, testPrice);
+            Assert.Equal(testName, p.Name);
         }
 
-        [Fact]
-        public void Product_GetPrice()
+        [Theory]
+        [InlineData("Cat in the Hat")]
+        public void Product_TestSetName(string newName)
         {
-            double pPrice = p.Price;
+            Product p = new Product(testName, testPrice);
+            p.Name = newName;
+            Assert.Equal(newName, p.Name);
+        }
 
-            Assert.Equal(pPrice, testPrice);
+        // test price
+        [Fact]
+        public void Product_TestGetPrice()
+        {
+            Product p = new Product(testName, testPrice);
+            Assert.Equal(testPrice, p.Price);
+        }
+
+        [Theory]
+        [InlineData(5.50)]
+        public void Product_TestSetPrice(double newPrice)
+        {
+            Product p = new Product(testName, testPrice);
+            p.Price = newPrice;
+            Assert.Equal(newPrice, p.Price);
         }
     }
 }
