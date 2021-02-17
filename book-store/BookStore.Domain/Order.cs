@@ -20,7 +20,7 @@ namespace BookStore.Domain
         public int ID {get;}
         public int CustomerID {get; set;}
         public int LocationID {get; set;}
-        public Dictionary<Product, int> Items {get;}
+        private Dictionary<Product, int> Items;
         public double Total 
         {
             get
@@ -34,7 +34,7 @@ namespace BookStore.Domain
                 return t;
             }
         }
-        public DateTime Time {get; set;}
+        public DateTimeOffset Time {get; set;}
 
         public void SetItemAmount(Product p, int amount)
         {

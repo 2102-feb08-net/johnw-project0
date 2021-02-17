@@ -7,103 +7,74 @@ namespace BookStore.Tests
 {
     public class OrderTests
     {
-        // private Order o;
-        // public OrderTests()
-        // {
-        //     o = new Order();
-        // }
-        // // test customer
-        // [Theory]
-        // [InlineData(1)]
-        // [InlineData(2)]
-        // public void Order_TestCustomer(int customerID)
-        // {
-        //     o.SetCustomer(customerID);
-        //     int k = o.GetCustomer();
-        //     Assert.Equal(customerID, k);
-        // }
+        private Order o;
+        private int testCustomerID = 1;
+        private int testLocationID = 2;
+        private double testProductPrice = 10.99;
+        private int testAmount = 4;
+        private Product p1;
+        private Product p2;
+        private Product p3;
 
-        // // test location
-        // [Theory]
-        // [InlineData(1)]
-        // [InlineData(2)]
-        // public void Order_TestLocation(int locationID)
-        // {
-        //     o.SetLocation(locationID);
-        //     int l = o.GetLocation();
-        //     Assert.Equal(locationID, l);
-        // }
+        public OrderTests()
+        {
+            o = new Order(testCustomerID, testLocationID);
 
-        // [Fact]
-        // public void Order_TestItems()
-        // {
-        //     Dictionary<int, int> i = o.Items;
+            p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99);
+            p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99);
+            p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99);
 
-        //     Assert.NotNull(i);
-        // }
-
-        // // add item
-        // [Theory]
-        // [InlineData(3, 5)]
-        // [InlineData(2, 10)]
-        // public void Order_AddItem_Pass(int productID, int amt)
-        // {
-        //     o.AddItem(productID, amt);
-
-        //     Assert.Equal(amt, o.Items[productID]);
-        // }
-
-        // [Theory]
-        // [InlineData(-1, 2)]
-        // [InlineData(5, 0)]
-        // public void Order_AddItem_Fail(int productID, int amt)
-        // {
-        //     bool done = o.AddItem(productID, amt);
-
-        //     Assert.False(done);
-        // }
-
-        // // remove item
-        // [Fact]
-        // public void Order_RemoveItem_Pass()
-        // {
-        //     bool done = o.AddItem(6. 10);
-        //     Assert.True(done);
-        //     done = o.RemoveItem(6);
-        //     Assert.True(done);
-        // }
-
-        // [Fact]
-        // public void Order_RemoveItem_Fail()
-        // {
-        //     bool done = l.RemoveItem(6);
-        //     Assert.False(done);
-        // }
+            o.SetItemAmount(p1, testAmount);
+            o.SetItemAmount(p2, testAmount);
+            o.SetItemAmount(p3, testAmount);
+        }
         
-        // [Fact]
-        // public void Order_SetItemCount_Pass()
-        // {
-        //     bool done = l.AddItem(18, 5);
-        //     Assert.True(done);
-        //     done = o.SetItemCount(18, 3);
-        //     Assert.True(done);
-        // }
+        // test customer id
+        [Fact]
+        public void Order_TestGetCustomerID()
+        {
+            int c = o.CustomerID;
+            Assert.Equal(testCustomerID, c);
+        }
 
-        // [Theory]
-        // [InlineData(-4, 2)]
-        // [InlineData(10, -3)]
-        // public void Order_SetItemCount_Fail(int productID, int amt)
-        // {
-        //     bool done = o.SetItemCount(productID, amt);
-        //     Assert.False(done);
-        // }
+        [Theory]
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void Order_TestSetCustomerID(int newID)
+        {
+            o.CustomerID = newID;
+            int c = o.CustomerID;
+            Assert.Equal(newID, c);
+        }
 
-        // // check price total
-        // [Fact]
-        // public void Order_GetPriceTotal()
-        // {
-        //     l.AddItem(22, 1);
-        //     l.AddItem()
-        // }
+        // test location id
+        [Fact]
+        public void Order_TestGetLocationID()
+        {
+            int i = o.LocationID;
+            Assert.Equal(testLocationID, i);
+        }
+
+        [Theory]
+        [InlineData(11)]
+        [InlineData(12)]
+        [InlineData(13)]
+        public void Order_TestSetLocationID(int newID)
+        {
+            o.LocationID = newID;
+            int i = o.LocationID;
+            Assert.Equal(newID, i);
+        }
+
+        // test get item amount
+        
+        // test set item amount
+
+        // test remove item
+
+        // test price
+
+        // test time
     }
 }
