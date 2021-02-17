@@ -36,13 +36,22 @@ namespace BookStore.Domain
         }
         public DateTimeOffset Time {get; set;}
 
-        public void SetItemAmount(Product p, int amount)
+        public bool SetItemAmount(Product p, int amount)
         {
+            if (p == null || amount < 0) 
+            {
+                return false;
+            }
             Items[p] = amount;
+            return true;
         }
 
-        public void SetItemAmount(int productID, int amount)
+        public bool SetItemAmount(int productID, int amount)
         {
+            if (productID < 1 || amount < 0) 
+            {
+                return false;
+            }
             Product toAssign = null;
             foreach(KeyValuePair<Product, int> entry in Items)
             {
@@ -54,11 +63,17 @@ namespace BookStore.Domain
             }
             if (toAssign != null) {
                 Items[toAssign] = amount;
+                return true;
             }
+            return false;
         }
 
         public int GetItemAmount(Product p)
         {
+            if (p == null || !Items.ContainsKey(p)) 
+            {
+                return -1;
+            }
             return Items[p];
         }
 
@@ -76,6 +91,10 @@ namespace BookStore.Domain
 
         public bool RemoveItem(Product p)
         {
+            if (p == null)
+            {
+                return false;
+            }
             return Items.Remove(p);
         }
 
