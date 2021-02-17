@@ -196,6 +196,10 @@ namespace BookStore.Tests
             Assert.False(done);
         }
 
+        
+
+
+        ////// test remove product
         public static IEnumerable<object[]> RemoveObjectPass =>
             new List<object[]>
             {
@@ -204,10 +208,6 @@ namespace BookStore.Tests
                 new object[] {p3}
             };
 
-
-
-
-        ////// test remove product
         [Theory]
         [MemberData(nameof(RemoveObjectPass))]
         public void Location_TestRemoveProduct_Object_Pass(Product p)
