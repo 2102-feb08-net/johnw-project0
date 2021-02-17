@@ -18,7 +18,7 @@ namespace BookStore.Domain
 
         public int ID {get;}
         public string Name {get; set;}
-        public Dictionary<Product, int> Inventory {get;}
+        private Dictionary<Product, int> Inventory;
 
         public bool SetProductAmount(Product p, int amount)
         {

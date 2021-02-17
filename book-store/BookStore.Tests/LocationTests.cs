@@ -10,24 +10,20 @@ namespace BookStore.Tests
         private Location l;
         private string testName = "Downtown";
         private int testAmount = 4;
-        private Product p1;
-        private Product p2;
-        private Product p3;
+        private static Product p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99);
+        private static Product p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99);
+        private static Product p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99);
 
         public LocationTests()
         {
             l = new Location(testName);
-            
-            p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99);
-            p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99);
-            p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99);
 
             l.SetProductAmount(p1, testAmount);
             l.SetProductAmount(p2, testAmount);
             l.SetProductAmount(p3, testAmount);
         }
-
-        // test name
+        
+        ////// test name
         [Fact]
         public void Location_TestGetName()
         {
@@ -44,25 +40,22 @@ namespace BookStore.Tests
             Assert.Equal(newName, n);
         }
 
-        // test get inventory
-        [Fact]
-        public void Location_TestGetInventory()
+
+
+        ////// test get product amt
+        public static IEnumerable<object[]> SampleProducts =>
+            new List<object[]>
+            {
+                new object[] {p1},
+                new object[] {p2},
+                new object[] {p3}
+            };
+
+        [Theory]
+        [MemberData(nameof(SampleProducts))]
+        public void Location_TestGetProductAmt_Object_Pass(Product p)
         {
-            Dictionary<Product, int> x = l.Inventory;
-            Assert.NotNull(x);
-        }
-
-        // test get product amt
-        [Fact]
-        public void Location_TestGetProductAmt_Object_Pass()
-        {
-            int i = l.GetProductAmount(p1);
-            Assert.Equal(testAmount, i);
-
-            i = l.GetProductAmount(p2);
-            Assert.Equal(testAmount, i);
-
-            i = l.GetProductAmount(p3);
+            int i = l.GetProductAmount(p);
             Assert.Equal(testAmount, i);
         }
 
@@ -93,7 +86,9 @@ namespace BookStore.Tests
             Assert.Equal(-1, i);
         }
 
-        // test set product amt
+
+
+        ////// test set product amt
         [Theory]
         [InlineData(5)]
         [InlineData(20)]
@@ -107,16 +102,20 @@ namespace BookStore.Tests
             Assert.Equal(amount, x);
         }
 
-        [Fact]
-        public void Location_TestSetProductAmt_Object_Fail()
+
+        public static IEnumerable<object[]> FailedProducts =>
+            new List<object[]>
+            {
+                new object[] {null, 2},
+                new object[] {null, -1},
+                new object[] {p1, -1}
+            };
+        
+        [Theory]
+        [MemberData(nameof(FailedProducts))]
+        public void Location_TestSetProductAmt_Object_Fail(Product p, int amount)
         {
-            bool done = l.SetProductAmount(null, 2);
-            Assert.False(done);
-
-            done = l.SetProductAmount(null, -1);
-            Assert.False(done);
-
-            done = l.SetProductAmount(p1, -1);
+            bool done = l.SetProductAmount(p, amount);
             Assert.False(done);
         }
 
@@ -143,35 +142,38 @@ namespace BookStore.Tests
             Assert.False(done);
         }
 
-        // test withdraw product amt
+
+
+
+        ////// test withdraw product amt
+        public static IEnumerable<object[]> WithdrawObjectPass =>
+            new List<object[]>
+            {
+                new object[] {p1, 1},
+                new object[] {p2, 3},
+                new object[] {p3, 4}
+            };
         [Theory]
-        [InlineData(1)]
-        [InlineData(3)]
-        [InlineData(4)]
-        public void Location_TestWithdrawProduct_Object_Pass(int amount)
+        [MemberData(nameof(WithdrawObjectPass))]
+        public void Location_TestWithdrawProduct_Object_Pass(Product p, int amount)
         {
-            bool done = l.WithdrawProduct(p1, amount);
-            Assert.True(done);
-
-            done = l.WithdrawProduct(p2, amount);
-            Assert.True(done);
-
-            done = l.WithdrawProduct(p3, amount);
+            bool done = l.WithdrawProduct(p, amount);
             Assert.True(done);
         }
 
+        public static IEnumerable<object[]> WithdrawObjectFail =>
+            new List<object[]>
+            {
+                new object[] {null, 1},
+                new object[] {p2, 0},
+                new object[] {p3, 9}
+            };
+
         [Theory]
-        [InlineData(0)]
-        [InlineData(9)]
-        public void Location_TestWithdrawProduct_Object_Fail(int amount)
+        [MemberData(nameof(WithdrawObjectFail))]
+        public void Location_TestWithdrawProduct_Object_Fail(Product p, int amount)
         {
-            bool done = l.WithdrawProduct(null, 1);
-            Assert.False(done);
-
-            done = l.WithdrawProduct(p2, amount);
-            Assert.False(done);
-
-            done = l.WithdrawProduct(p3, amount);
+            bool done = l.WithdrawProduct(p, amount);
             Assert.False(done);
         }
 
@@ -194,26 +196,26 @@ namespace BookStore.Tests
             Assert.False(done);
         }
 
-        // test remove product
-        [Fact]
-        public void Location_TestRemoveProduct_Object_Pass()
+        public static IEnumerable<object[]> RemoveObjectPass =>
+            new List<object[]>
+            {
+                new object[] {p1},
+                new object[] {p2},
+                new object[] {p3}
+            };
+
+
+
+
+        ////// test remove product
+        [Theory]
+        [MemberData(nameof(RemoveObjectPass))]
+        public void Location_TestRemoveProduct_Object_Pass(Product p)
         {
-            bool done = l.RemoveProduct(p1);
+            bool done = l.RemoveProduct(p);
             Assert.True(done);
 
-            int i = l.GetProductAmount(p1);
-            Assert.Equal(-1, i);
-
-            done = l.RemoveProduct(p2);
-            Assert.True(done);
-
-            i = l.GetProductAmount(p2);
-            Assert.Equal(-1, i);
-
-            done = l.RemoveProduct(p3);
-            Assert.True(done);
-
-            i = l.GetProductAmount(p3);
+            int i = l.GetProductAmount(p);
             Assert.Equal(-1, i);
         }
 
