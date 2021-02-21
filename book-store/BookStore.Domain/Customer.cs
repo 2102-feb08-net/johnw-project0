@@ -17,7 +17,15 @@ namespace BookStore.Domain
             DefaultLocationID = defaultLocationId;
         }
 
-        public int ID {get;}
+        public Customer(int id, string firstName, string lastName, int defaultLocationId)
+        {
+            ID = id;
+            FirstName = firstName;
+            LastName = lastName;
+            DefaultLocationID = defaultLocationId;
+        }
+
+        public int ID { get; set; }
         public string FirstName {get; set;}
         public string LastName {get; set;}
         public int DefaultLocationID {get; set;}
