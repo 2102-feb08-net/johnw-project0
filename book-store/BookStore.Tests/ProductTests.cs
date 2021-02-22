@@ -8,7 +8,7 @@ namespace BookStore.Tests
     {
         int testID = 1;
         string testName = "Green Eggs & Ham";
-        double testPrice = 4.99;
+        decimal testPrice = 4.99M;
         
         // test ID
         [Fact]
@@ -54,7 +54,7 @@ namespace BookStore.Tests
 
         [Theory]
         [InlineData(5.50)]
-        public void Product_TestSetPrice(double newPrice)
+        public void Product_TestSetPrice(decimal newPrice)
         {
             Product p = new Product(testName, testPrice);
             p.Price = newPrice;

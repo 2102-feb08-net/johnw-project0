@@ -10,9 +10,9 @@ namespace BookStore.Tests
         private Location l;
         private string testName = "Downtown";
         private int testAmount = 4;
-        private static Product p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99);
-        private static Product p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99);
-        private static Product p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99);
+        private static Product p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99M);
+        private static Product p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99M);
+        private static Product p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99M);
 
         public LocationTests()
         {

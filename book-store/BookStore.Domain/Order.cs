@@ -17,10 +17,18 @@ namespace BookStore.Domain
             Items = new Dictionary<Product, int>();
         }
 
+        public Order(int id, int customerID, int locationID)
+        {
+            ID = id;
+            CustomerID = customerID;
+            LocationID = locationID;
+            Items = new Dictionary<Product, int>();
+        }
+
         public int ID {get;}
         public int CustomerID {get; set;}
         public int LocationID {get; set;}
-        private Dictionary<Product, int> Items;
+        public Dictionary<Product, int> Items;
         public double Total 
         {
             get
@@ -28,7 +36,7 @@ namespace BookStore.Domain
                 double t = 0.0;
                 foreach(KeyValuePair<Product, int> entry in Items)
                 {
-                    double s = entry.Key.Price * entry.Value;
+                    double s = (double)entry.Key.Price * entry.Value;
                     t += s;
                 }
                 return t;

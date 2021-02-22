@@ -10,11 +10,11 @@ namespace BookStore.Tests
         private Order o;
         private int testCustomerID = 1;
         private int testLocationID = 2;
-        private double testProductPrice = 10.99;
+        private decimal testProductPrice = 10.99M;
         private int testAmount = 4;
-        private static Product p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99);
-        private static Product p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99);
-        private static Product p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99);
+        private static Product p1 = new Product(1, "The Lord of the Rings: The Fellowship of the Ring", 10.99M);
+        private static Product p2 = new Product(2, "The Lord of the Rings: The Two Towers", 10.99M);
+        private static Product p3 = new Product(3, "The Lord of the Rings: The Return of the King", 10.99M);
 
 
         public OrderTests()
@@ -224,7 +224,7 @@ namespace BookStore.Tests
         [Fact]
         public void Order_TestGetTotal()
         {
-            double expected = testProductPrice * 3 * testAmount;
+            double expected = (double)testProductPrice * 3 * testAmount;
             double t = o.Total;
             Assert.Equal(expected, t);
         }

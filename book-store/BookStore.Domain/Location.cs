@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace BookStore.Domain
@@ -10,6 +9,12 @@ namespace BookStore.Domain
             Inventory = new Dictionary<Product, int>();
         }
 
+        public Location(int id)
+        {
+            Inventory = new Dictionary<Product, int>();
+            ID = id;
+        }
+
         public Location(string name)
         {
             Name = name;
@@ -18,7 +23,7 @@ namespace BookStore.Domain
 
         public int ID {get;}
         public string Name {get; set;}
-        private Dictionary<Product, int> Inventory;
+        public Dictionary<Product, int> Inventory;
 
         public bool SetProductAmount(Product p, int amount)
         {
