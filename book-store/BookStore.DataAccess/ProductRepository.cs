@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BookStore.DataAccess
 {
-    public class CustomerRepository<T> : IRepository<T> where T : Domain.Customer
+    public class ProductRepository<T> : IRepository<T> where T : Domain.Product
     {
         private static DbContextOptions<bookstoredbContext> options;
 
@@ -19,78 +19,77 @@ namespace BookStore.DataAccess
                 .Options;
         }
 
-        public Domain.Customer GetById(int id)
+        public Domain.Product GetById(int id)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             ConnectToDB(logStream);
             using var _context = new bookstoredbContext(options);
-            var c = _context.Set<Customer>().Find(id);
-            var x = new Domain.Customer(c.FirstName, c.LastName) { ID = c.Id, FirstName = c.FirstName, LastName = c.LastName, DefaultLocationID = (int)c.DefaultLocationId };
+            var c = _context.Set<Product>().Find(id);
+            var x = new Domain.Product(c.Name, (decimal)c.Price);
             return x;
         }
 
-        public Domain.Customer GetByFullName(string n)
+        public Domain.Product GetByName(string n)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             ConnectToDB(logStream);
             using var _context = new bookstoredbContext(options);
-            var c = _context.Set<Customer>().Where(x => n == (x.FirstName + " " + x.LastName)).FirstOrDefault();
-            return new Domain.Customer(c.Id, c.FirstName, c.LastName, (int)c.DefaultLocationId);
+            var c = _context.Set<Product>().Where(x => n == x.Name).FirstOrDefault();
+            return new Domain.Product(c.Name, (decimal)c.Price);
         }
 
-        public IEnumerable<Domain.Customer> List()
+        public IEnumerable<Domain.Product> List()
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             ConnectToDB(logStream);
             using var _context = new bookstoredbContext(options);
-            var x = _context.Set<Customer>().AsEnumerable();
-            List<Domain.Customer> list = new List<Domain.Customer>();
+            var x = _context.Set<Product>().AsEnumerable();
+            List<Domain.Product> list = new List<Domain.Product>();
             foreach (var i in x)
             {
-                var c = new Domain.Customer(i.FirstName, i.LastName, (int)i.DefaultLocationId) { ID = i.Id };
-                list.Add(c);
+                var p = new Domain.Product(i.Name, (decimal)i.Price);
+                list.Add(p);
             }
             return list;
         }
 
-        public void Insert(Domain.Customer c)
+        public void Insert(Domain.Product p)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             ConnectToDB(logStream);
             using var _context = new bookstoredbContext(options);
-            Customer entity = new Customer() { FirstName = c.FirstName, LastName = c.LastName, DefaultLocationId = c.DefaultLocationID };
-            _context.Set<Customer>().Add(entity);
+            Product entity = new Product() {Name = p.Name, Price = p.Price};
+            _context.Set<Product>().Add(entity);
             _context.SaveChanges();
         }
 
-        public void Update(Domain.Customer c)
+        public void Update(Domain.Product p)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             ConnectToDB(logStream);
             using var _context = new bookstoredbContext(options);
-            var entity = _context.Customers.SingleOrDefault(x => x.Id == c.ID);
+            var entity = _context.Products.SingleOrDefault(x => x.Id == p.ID);
             if (entity != null)
             {
-                entity.FirstName = c.FirstName;
-                entity.LastName = c.LastName;
-                entity.DefaultLocationId = c.DefaultLocationID;
+                entity.Name = p.Name;
+                entity.Price = p.Price;
                 _context.Entry(entity).State = EntityState.Modified;
                 _context.SaveChanges();
             }
         }
 
-        public void Delete(Domain.Customer c)
+        public void Delete(Domain.Product p)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             ConnectToDB(logStream);
             using var _context = new bookstoredbContext(options);
-            var entity = _context.Customers.SingleOrDefault(x => x.Id == c.ID);
+            var entity = _context.Products.SingleOrDefault(x => x.Id == p.ID);
             if (entity != null)
             {
-                _context.Set<Customer>().Remove(entity);
+                _context.Set<Product>().Remove(entity);
                 _context.SaveChanges();
             }
-            
+
         }
     }
 }
