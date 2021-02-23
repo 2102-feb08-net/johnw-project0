@@ -1,5 +1,6 @@
 ﻿using BookStore.DataAccess;
 using BookStore.Services;
+using Figgle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace BookStore.ConsoleApp
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(FiggleFonts.Train.Render(" BookStore"));
             var hs = new HelperService(new Repository());
             string input = "";
             do
@@ -140,7 +142,7 @@ namespace BookStore.ConsoleApp
                             ViewCustomerOrderHistory(hs);
                             break;
                         case 'l':
-
+                            ViewLocationOrderHistory(hs);
                             break;
                         case 'b':
                             // go up a level in the menu
@@ -179,10 +181,11 @@ namespace BookStore.ConsoleApp
                         List<Domain.Order> orders = hs.GetCustomerOrderHistory(i);
                         if (orders.Count > 0)
                         {
-                            Console.WriteLine("ID\tTime\tTotal");
+                            Console.WriteLine("{0, -3} | {1, -30} | {2, -15}", "ID", "Time", "Total");
+                            Console.WriteLine("-----------------------------------------------");
                             foreach (var o in orders)
                             {
-                                Console.WriteLine($"{o.ID}\t{o.Time}\t${Math.Round(o.Total, 2)}");
+                                Console.WriteLine($"{o.ID, -3} | {o.Time, -30} | ${Math.Round(o.Total, 2), -15}");
                             }
                         }
                         else
@@ -190,6 +193,57 @@ namespace BookStore.ConsoleApp
                             Console.WriteLine("This customer has not placed any orders yet.");
                         }
                         
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid ID number. Please choose an ID from the list");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid ID number. Please choose an ID from the list");
+                }
+            } while (!valid);
+        }
+
+        static void ViewLocationOrderHistory(HelperService hs)
+        {
+            List<Domain.Location> locations = hs.GetAllLocations();
+            Console.WriteLine("\nEnter the ID of the location you would like to view the order history for:");
+            Console.WriteLine("ID | Name");
+            Console.WriteLine("-------------------------");
+            foreach (var l in locations)
+            {
+                Console.WriteLine($"{l.ID}  | {l.Name}");
+            }
+            string input = "";
+            bool valid = false;
+            do
+            {
+                input = "";
+                input = Console.ReadLine();
+                valid = char.IsDigit(input[0]);
+                if (valid)
+                {
+                    int i = input[0] - '0';
+                    valid = locations.Any(l => l.ID == i);
+                    if (valid)
+                    {
+                        List<Domain.Order> orders = hs.GetLocationOrderHistory(i);
+                        if (orders.Count > 0)
+                        {
+                            Console.WriteLine("{0, -3} | {1, -30} | {2, -15}", "ID", "Time", "Total");
+                            Console.WriteLine("-----------------------------------------------");
+                            foreach (var o in orders)
+                            {
+                                Console.WriteLine($"{o.ID,-3} | {o.Time, -30} | ${Math.Round(o.Total, 2), -15}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("This location has not had any orders placed yet.");
+                        }
+
                     }
                     else
                     {
