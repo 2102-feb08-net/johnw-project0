@@ -70,9 +70,7 @@ ALTER TABLE bkdb.Orders ADD CONSTRAINT FK_OrdersLocationID
 GO
 CREATE INDEX IFK_OrdersLocationID ON bkdb.Orders (LocationID);
 GO
-ALTER TABLE bkdb.Customer ADD CONSTRAINT FK_CustomerDefaultLocationID
-	FOREIGN KEY (DefaultLocationID) REFERENCES bkdb.Location (ID) ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 CREATE INDEX IFK_CustomerDefaultLocationID ON bkdb.Customer (DefaultLocationID);
 GO
 ALTER TABLE bkdb.OrderLine ADD CONSTRAINT FK_OrderLineOrderID
