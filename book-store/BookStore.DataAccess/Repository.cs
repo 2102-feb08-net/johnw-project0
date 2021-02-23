@@ -173,7 +173,7 @@ namespace BookStore.DataAccess
                 foreach (var i in inventories)
                 {
                     var dbProduct = _context.Set<Product>().Where(p => p.Id == i.ProductId).FirstOrDefault();
-                    var domProduct = new Domain.Product(dbProduct.Name, (decimal)dbProduct.Price);
+                    var domProduct = new Domain.Product(dbProduct.Id, dbProduct.Name, (decimal)dbProduct.Price);
                     n.SetProductAmount(domProduct, i.Amount);
                 }
                 toReturn.Add(n);
@@ -193,7 +193,7 @@ namespace BookStore.DataAccess
             foreach (var i in inventories)
             {
                 var dbProduct = _context.Set<Product>().Where(p => p.Id == i.ProductId).FirstOrDefault();
-                var domProduct = new Domain.Product(dbProduct.Name, (decimal)dbProduct.Price);
+                var domProduct = new Domain.Product(dbProduct.Id, dbProduct.Name, (decimal)dbProduct.Price);
                 loc.SetProductAmount(domProduct, i.Amount);
             }
 
@@ -211,7 +211,7 @@ namespace BookStore.DataAccess
             foreach (var i in inventories)
             {
                 var dbProduct = _context.Set<Product>().Where(p => p.Id == i.ProductId).FirstOrDefault();
-                var domProduct = new Domain.Product(dbProduct.Name, (decimal)dbProduct.Price);
+                var domProduct = new Domain.Product(dbProduct.Id, dbProduct.Name, (decimal)dbProduct.Price);
                 loc.SetProductAmount(domProduct, i.Amount);
             }
 
@@ -343,11 +343,12 @@ namespace BookStore.DataAccess
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
             using var _context = GenerateDBContext(logStream);
 
-            Order entity = new Order() { Id = o.ID, CustomerId = o.CustomerID, LocationId = o.LocationID, Time = o.Time.UtcDateTime };
+            Order entity = new Order() { CustomerId = o.CustomerID, LocationId = o.LocationID, Time = o.Time.UtcDateTime, TotalPrice = (decimal)o.Total };
             _context.Set<Order>().Add(entity);
+            _context.SaveChanges();
             foreach(var kv in o.Items)
             {
-                OrderLine ol = new OrderLine() { OrderId = o.ID, ProductId = kv.Key.ID, Amount = kv.Value };
+                OrderLine ol = new OrderLine() { OrderId = entity.Id, ProductId = kv.Key.ID, Amount = kv.Value };
                 _context.Set<OrderLine>().Add(ol);
             }
             _context.SaveChanges();
