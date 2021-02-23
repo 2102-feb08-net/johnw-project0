@@ -52,6 +52,10 @@ namespace BookStore.ConsoleApp
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Allows the user to view the list of customers and add new ones to the list, and/or they can return up a level or exit the program.
+        /// </summary>
+        /// <param name="hs"></param>
         static void ViewAddCustomers(HelperService hs)
         {
             string input = "";
@@ -121,6 +125,10 @@ namespace BookStore.ConsoleApp
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Allows the user to select what type of order history to view, and/or they can return up a level or exit the program.
+        /// </summary>
+        /// <param name="hs"></param>
         static void ViewOrderHistories(HelperService hs)
         {
             string input = "";
@@ -155,6 +163,10 @@ namespace BookStore.ConsoleApp
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Allows the user to view the order history of a particular customer. Shows the list of customers again as a reference.
+        /// </summary>
+        /// <param name="hs"></param>
         static void ViewCustomerOrderHistory(HelperService hs)
         {
             List<Domain.Customer> customers = hs.GetAllCustomers();
@@ -206,6 +218,10 @@ namespace BookStore.ConsoleApp
             } while (!valid);
         }
 
+        /// <summary>
+        /// Allows the user to view the order history for a certain location. Displays the list of locations as well as a reference.
+        /// </summary>
+        /// <param name="hs"></param>
         static void ViewLocationOrderHistory(HelperService hs)
         {
             List<Domain.Location> locations = hs.GetAllLocations();
@@ -257,6 +273,10 @@ namespace BookStore.ConsoleApp
             } while (!valid);
         }
 
+        /// <summary>
+        /// Allows the user to begin constructing and placing an order of products from one of the locations.
+        /// </summary>
+        /// <param name="hs"></param>
         static void PlaceANewOrder(HelperService hs)
         {
             Console.WriteLine("Please wait while we get things ready...");
@@ -314,6 +334,12 @@ namespace BookStore.ConsoleApp
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Allows the user to choose the location that they will order from, now that the customer has been chosen.
+        /// </summary>
+        /// <param name="hs"></param>
+        /// <param name="locations"></param>
+        /// <param name="customerID"></param>
         static void PlaceOrderChooseLocation(HelperService hs, List<Domain.Location> locations, int customerID)
         {
             string input = "";
@@ -377,6 +403,13 @@ namespace BookStore.ConsoleApp
             } while (!valid);
         }
 
+        /// <summary>
+        /// Allows the user to choose the products they will order now that the customer and location for the order have been chosen.
+        /// </summary>
+        /// <param name="hs"></param>
+        /// <param name="loc"></param>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
         static Domain.Order PlaceOrderChooseProducts(HelperService hs, Domain.Location loc, int customerID)
         {
             Domain.Order order = new Domain.Order();
@@ -469,6 +502,13 @@ namespace BookStore.ConsoleApp
             return null;
         }
 
+        /// <summary>
+        /// Allows the user to review their order and submit it, or to quit the program.
+        /// </summary>
+        /// <param name="hs"></param>
+        /// <param name="order"></param>
+        /// <param name="loc"></param>
+        /// <returns></returns>
         static bool ReviewAndSubmitOrder(HelperService hs, Domain.Order order, Domain.Location loc)
         {
             Console.WriteLine("Here is a summary of the order:");

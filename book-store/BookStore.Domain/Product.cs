@@ -17,8 +17,19 @@ namespace BookStore.Domain
             Price = price;
         }
 
+        /// <summary>
+        /// An identifier for the Product.
+        /// </summary>
         public int ID {get; set;}
+
+        /// <summary>
+        /// The name of the Product.
+        /// </summary>
         public string Name {get; set;}
+
+        /// <summary>
+        /// The price the Product is being sold at.
+        /// </summary>
         public decimal Price {get; set;}
     }
 }

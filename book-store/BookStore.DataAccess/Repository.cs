@@ -10,6 +10,11 @@ namespace BookStore.DataAccess
 {
     public class Repository : IRepository
     {
+        /// <summary>
+        /// Generates the context for accessing the database based on options that are given.
+        /// </summary>
+        /// <param name="logStream"></param>
+        /// <returns> bookstoredbContext _context </returns>
         private bookstoredbContext GenerateDBContext(StreamWriter logStream)
         {
             string connString = File.ReadAllText("C:/revature/bkdb.txt");
@@ -22,6 +27,11 @@ namespace BookStore.DataAccess
         }
 
         // CRUD Customer
+
+        /// <summary>
+        /// Returns the list of all Customers in the database.
+        /// </summary>
+        /// <returns> List<Customer> list </returns>
         public List<Domain.Customer> GetAllCustomers()
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -38,6 +48,12 @@ namespace BookStore.DataAccess
             
             return list;
         }
+
+        /// <summary>
+        /// Returns a specific Customer with the given ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Customer x </returns>
         public Domain.Customer GetCustomerByID(int id)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -48,6 +64,13 @@ namespace BookStore.DataAccess
             
             return x;
         }
+
+        /// <summary>
+        /// Returns a list of Customers that have the given first and last name.
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="last"></param>
+        /// <returns> List<Customer> toReturn </returns>
         public List<Domain.Customer> GetCustomerByName(string first, string last)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -64,6 +87,11 @@ namespace BookStore.DataAccess
             
             return toReturn;
         }
+
+        /// <summary>
+        /// Adds the given Customer as a new Customer to the database.
+        /// </summary>
+        /// <param name="c"></param>
         public void AddCustomer(Domain.Customer c)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -73,6 +101,11 @@ namespace BookStore.DataAccess
             _context.Set<Customer>().Add(entity);
             _context.SaveChanges();
         }
+
+        /// <summary>
+        /// Updates the given Customer in the database.
+        /// </summary>
+        /// <param name="c"></param>
         public void UpdateCustomer(Domain.Customer c)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -88,6 +121,11 @@ namespace BookStore.DataAccess
                 _context.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Deletes the given Customer from the database.
+        /// </summary>
+        /// <param name="c"></param>
         public void DeleteCustomer(Domain.Customer c)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -102,6 +140,11 @@ namespace BookStore.DataAccess
         }
 
         // CRUD Product
+
+        /// <summary>
+        /// Returns the list of all Products in the database.
+        /// </summary>
+        /// <returns> List<Product> list </returns>
         public List<Domain.Product> GetAllProducts()
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -118,6 +161,12 @@ namespace BookStore.DataAccess
             
             return list;
         }
+
+        /// <summary>
+        /// Returns the specific Product that has the given ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Product x </returns>
         public Domain.Product GetProductByID(int id)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -128,6 +177,12 @@ namespace BookStore.DataAccess
             
             return x;
         }
+
+        /// <summary>
+        /// Returns the list of products that match the given name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns> List<Product> toReturn </returns>
         public List<Domain.Product> GetProductByName(string name)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -144,20 +199,40 @@ namespace BookStore.DataAccess
             
             return toReturn;
         }
+
+        /// <summary>
+        /// Adds the given Product to the database.
+        /// </summary>
+        /// <param name="p"></param>
         public void AddProduct(Domain.Product p)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Updates the given Product in the database.
+        /// </summary>
+        /// <param name="p"></param>
         public void UpdateProduct(Domain.Product p)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Deletes the given Product from the database.
+        /// </summary>
+        /// <param name="p"></param>
         public void DeleteProduct(Domain.Product p)
         {
             throw new NotImplementedException();
         }
 
         // CRUD Location
+
+        /// <summary>
+        /// Returns the list of all Locations from the database.
+        /// </summary>
+        /// <returns> List<Location> toReturn </returns>
         public List<Domain.Location> GetAllLocations()
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -181,6 +256,12 @@ namespace BookStore.DataAccess
 
             return toReturn;
         }
+
+        /// <summary>
+        /// Returns the specific Location matching the given ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Location loc </returns>
         public Domain.Location GetLocationByID(int id)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -199,6 +280,12 @@ namespace BookStore.DataAccess
 
             return loc;
         }
+
+        /// <summary>
+        /// Returns the specific Location matching the given name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns> Location loc </returns>
         public Domain.Location GetLocationByName(string name)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -217,10 +304,20 @@ namespace BookStore.DataAccess
 
             return loc;
         }
+
+        /// <summary>
+        /// Adds the given Location to the database.
+        /// </summary>
+        /// <param name="l"></param>
         public void AddLocation(Domain.Location l)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Updates the given Location in the database.
+        /// </summary>
+        /// <param name="l"></param>
         public void UpdateLocation(Domain.Location l)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -245,12 +342,22 @@ namespace BookStore.DataAccess
                 _context.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Deletes the given Location from the database.
+        /// </summary>
+        /// <param name="l"></param>
         public void DeleteLocation(Domain.Location l)
         {
             throw new NotImplementedException();
         }
 
         // CRUD Orders
+
+        /// <summary>
+        /// Returns the list of all Orders in the database.
+        /// </summary>
+        /// <returns> List<Order> toReturn </returns>
         public List<Domain.Order> GetAllOrders()
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -274,6 +381,12 @@ namespace BookStore.DataAccess
 
             return toReturn;
         }
+
+        /// <summary>
+        /// Returns the specific Order matching the given ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Order ord </returns>
         public Domain.Order GetOrderByID(int id)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -292,6 +405,12 @@ namespace BookStore.DataAccess
 
             return ord;
         }
+
+        /// <summary>
+        /// Returns the list of Orders placed by the Customer with the given ID.
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns> List<Order> toReturn </returns>
         public List<Domain.Order> GetOrdersByCustomerID(int customerID)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -315,6 +434,12 @@ namespace BookStore.DataAccess
 
             return toReturn;
         }
+
+        /// <summary>
+        /// Returns the list of Orders placed at the Location with the given ID.
+        /// </summary>
+        /// <param name="locationID"></param>
+        /// <returns> List<Order> toReturn </returns>
         public List<Domain.Order> GetOrdersByLocationID(int locationID)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -338,6 +463,11 @@ namespace BookStore.DataAccess
 
             return toReturn;
         }
+
+        /// <summary>
+        /// Adds the given Order to the database.
+        /// </summary>
+        /// <param name="o"></param>
         public void AddOrder(Domain.Order o)
         {
             using var logStream = new StreamWriter("bkdb-logs.txt", append: false) { AutoFlush = true };
@@ -353,10 +483,20 @@ namespace BookStore.DataAccess
             }
             _context.SaveChanges();
         }
+
+        /// <summary>
+        /// Updates the given Order in the database.
+        /// </summary>
+        /// <param name="o"></param>
         public void UpdateOrder(Domain.Order o)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Deletes the given Order from the database.
+        /// </summary>
+        /// <param name="o"></param>
         public void DeleteOrder(Domain.Order o)
         {
             throw new NotImplementedException();
